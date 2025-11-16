@@ -48,7 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('http://localhost:8000/auth/login', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const response = await fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signup = async (userData: Omit<User, 'id'>) => {
     try {
-      const response = await fetch('http://localhost:8000/auth/signup', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const response = await fetch(`${apiUrl}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -22,7 +22,8 @@ export async function POST(req: Request) {
     };
     console.log("Sending to backend:", payload);
 
-    const response = await fetch("http://localhost:8000/chat", {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const response = await fetch(`${apiUrl}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

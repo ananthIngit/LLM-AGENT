@@ -327,7 +327,8 @@ export function SeniorChat() {
       // Add assistant message to chat
       let audioBlob: Blob | undefined = undefined;
       try {
-        const ttsResponse = await fetch('http://localhost:8000/speak_response', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"; // <-- ADDED
+        const ttsResponse = await fetch(`${apiUrl}/speak_response`, { // <-- UPDATED
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -500,7 +501,8 @@ export function SeniorChat() {
       const formData = new FormData()
       formData.append('audio_file', audioBlob, 'recording.wav')
 
-      const response = await fetch('http://localhost:8000/transcribe_audio', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"; // <-- ADDED
+      const response = await fetch(`${apiUrl}/transcribe_audio`, { // <-- UPDATED
         method: 'POST',
         body: formData,
       })
@@ -548,7 +550,8 @@ export function SeniorChat() {
     setPlayingMessageId(messageId || null)
     try {
       // Fetch TTS audio from backend
-      const response = await fetch('http://localhost:8000/speak_response', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"; // <-- ADDED
+      const response = await fetch(`${apiUrl}/speak_response`, { // <-- UPDATED
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -643,10 +646,12 @@ export function SeniorChat() {
   // --- Fetch profile and memory data when subtab is opened ---
   useEffect(() => {
     if (!sessionId) return;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"; // <-- ADDED
+
     if (activeSubTab === "profile") {
       setProfileLoading(true)
       setProfileError(null)
-      fetch(`http://localhost:8000/get_profile/${sessionId}`)
+      fetch(`${apiUrl}/get_profile/${sessionId}`) // <-- UPDATED
         .then(res => {
           if (!res.ok) throw new Error(`HTTP ${res.status}`)
           return res.json()
@@ -658,7 +663,7 @@ export function SeniorChat() {
     if (activeSubTab === "memory") {
       setMemoryLoading(true)
       setMemoryError(null)
-      fetch(`http://localhost:8000/get_memories/${sessionId}`)
+      fetch(`${apiUrl}/get_memories/${sessionId}`) // <-- UPDATED
         .then(res => {
           if (!res.ok) throw new Error(`HTTP ${res.status}`)
           return res.json()
@@ -673,7 +678,7 @@ export function SeniorChat() {
     if (activeSubTab === "health") {
       setHealthLoading(true)
       setHealthError(null)
-      fetch(`http://localhost:8000/get_health_data`)
+      fetch(`${apiUrl}/get_health_data`) // <-- UPDATED
         .then(res => {
           if (!res.ok) throw new Error(`HTTP ${res.status}`)
           return res.json()
@@ -687,7 +692,8 @@ export function SeniorChat() {
   // Fetch user persona after login
   useEffect(() => {
     if (userToken && !userPersona && agentSessionId) {
-      fetch(`http://localhost:8000/get_profile/${agentSessionId}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"; // <-- ADDED
+      fetch(`${apiUrl}/get_profile/${agentSessionId}`, { // <-- UPDATED
         headers: { Authorization: `Bearer ${userToken}` },
       })
         .then((res) => res.json())

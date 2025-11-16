@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Python
+venv/
+.venv/
+env/
+.env/
+elderly-env/
+__pycache__/
+*.pyc
+*.db
+*.sqlite3
+token.json
+credentials.json
+.env
+
+# Node
+node_modules/
+.next/
+out/
+.env.local
+.env.*.local
